@@ -1,0 +1,21 @@
+/* 字体包引入 */
+@font-face {
+  font-family: "MVPFont";
+  src: url('MVP.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "MVP2Font";
+  src: url('MVP2.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ygFont";
+  src: url('新愚公沧桑体.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
