@@ -12,11 +12,19 @@
         {{item.meta.title}}
       </el-breadcrumb-item>
     </el-breadcrumb>
+    <div style="margin:0 40px 0 auto;">
+      <mvpTime></mvpTime>
+    </div>
+      
   </div>
 </template>
 <script>
+import mvpTime from '@/components/public/time.vue';
 export default ({
   name: 'BreadCrumb',
+  components:{
+    mvpTime,
+  },
   props: {
     isCollapse:{
       type:Boolean,

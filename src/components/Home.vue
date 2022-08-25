@@ -4,7 +4,7 @@
       <div style="font-size: 18px;font-weight: 600;margin-right: auto;">
         <i class="el-icon-sunrise-1"
            style="margin-right:15px;font-size:32px;text-shadow:10px 10px 4px #ad792a"></i>
-        <span>MVP</span>
+        <span style="font-family:'MVP2Font;font-size:24px;'">MVP</span>
 
       </div>
       <ThemeSwitch :themeColorMVP.sync="themeColor"></ThemeSwitch>
