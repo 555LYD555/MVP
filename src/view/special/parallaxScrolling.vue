@@ -2,13 +2,13 @@
     <div class="home" ref="scorllBox" @scroll="handleScroll">
         <div class="tim-content qqpc">
             <div class="title" v-bind:style="{'position':titlePositon,'background-color': titleColor,'border-bottom':titleBorder }">
-                <ul>
+                <!-- <ul> -->
                     <!-- <li class="logoLink">11</li> -->
-                    <li class="item2">MVP</li>
+                    <!-- <li class="item2">MVP</li>
                     <li class="item">首页</li>
                     <li class="item">下载</li>
                     <li class="item">动态</li>
-                </ul>
+                </ul> -->
                 
                 
             </div>
@@ -251,7 +251,7 @@ export default {
   display: block;
   margin-top: 30vh;
   text-align: center;
-  color:blue;
+  color:rgb(59, 59, 59);
   text-shadow:15px 15px 15px gray;
   cursor:pointer;
 }

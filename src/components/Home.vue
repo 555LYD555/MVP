@@ -1,5 +1,5 @@
 <template>
-  <div style="height:100%;width:100%;">
+  <div style="height:100%;width:100%;" :class="currentTheme">
     <el-header :style="{background: themeColor}">
       <div style="font-size: 18px;font-weight: 600;margin-right: auto;">
         <i class="el-icon-sunrise-1"
@@ -13,8 +13,9 @@
         <i class="el-icon-setting"
            style="margin-right: 15px"></i>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>个人中心</el-dropdown-item>
+          <el-dropdown-item @click.native="drawerVisible = true">个人中心</el-dropdown-item>
           <el-dropdown-item>菜单排列模式切换<i class="el-icon-refresh"></i></el-dropdown-item>
+          <el-dropdown-item>更换主题</el-dropdown-item>
           <el-dropdown-item>修改密码</el-dropdown-item>
           <el-dropdown-item>退出登录</el-dropdown-item>
           <el-dropdown-item @click.native="handleClick">{{headerText}}</el-dropdown-item>
@@ -83,16 +84,29 @@
           <router-view></router-view>
         </el-main>
       </div>
+      <!-- 抽屉：个人中心 -->
+      <el-drawer 
+                 :visible.sync="drawerVisible"
+                 direction="rtl"
+                 size="30%">
+        <el-tabs v-model="activeName"
+                 @tab-click="handleClickCenter">
+          <el-tab-pane label="主题管理"
+                       name="first">
+            <ThemeCards :currentTheme.sync="currentTheme"></ThemeCards>
+          </el-tab-pane>
+          <el-tab-pane label="配置管理"
+                       name="second">配置管理</el-tab-pane>
+          <el-tab-pane label="角色管理"
+                       name="third">角色管理</el-tab-pane>
+          <el-tab-pane label="定时任务补偿"
+                       name="fourth">定时任务补偿</el-tab-pane>
+        </el-tabs>
+      </el-drawer>
     </el-container>
 
     <el-container style="height: calc(100% - 60px); border: 1px solid #eee;z-index:999;box-sizing:border-box;background:url(https://img95.699pic.com/photo/50046/0542.jpg_wh300.jpg);"
                   v-if="isWelcomePageVisible">
-      <!-- <el-card style="display:flex;flex-flow:wrap;width:100%;height:100%;justify-content:space-around;">
-            <el-card class="navCardItem" v-for="(item,index) in navData" :key="index" :style="{backgroundColor:colorArray[index]}"  @click="goToUrl(item.url)">
-                <i class="el-icon-s-help"></i>
-                <span>{{item.name}}</span>
-            </el-card>
-          </el-card> -->
       <parallax-scrolling></parallax-scrolling>
     </el-container>
   </div>
@@ -100,9 +114,10 @@
 <script>
 import BreadCrumb from '@/components/BreadCrumb.vue';
 import ParallaxScrolling from '@/view/special/parallaxScrolling.vue';
-import ThemeSwitch from '@/components/Theme.vue'
+import ThemeSwitch from '@/components/Theme.vue';
+import ThemeCards from '@/view/otherView/myCenter/themeCard.vue';
 export default {
-  components: { BreadCrumb, ParallaxScrolling, ThemeSwitch },
+  components: { BreadCrumb, ParallaxScrolling, ThemeSwitch ,ThemeCards},
   name: 'Home',
   data () {
 
@@ -127,6 +142,12 @@ export default {
         { name: "视觉滚差", url: "/8" },
       ],
       colorArray: ["#9d9797", "#9fbdc3", "#c3b79f", "#ad99c9", "#99c9a9", "#c99999"],
+      //抽屉是否可见
+      drawerVisible: false,
+      // 当前系统使用主题
+      // currentTheme:'MVP-theme0',
+      currentTheme:'',
+      activeName:'first',
     }
   },
 
@@ -139,6 +160,11 @@ export default {
         this.headerText = "返回首页";
       }
 
+    },
+
+    //点击个人中心
+    handleClickCenter (tab, event) {
+      console.log(tab, event);
     },
     // goTOLink(index){
     //   debugger
@@ -171,13 +197,18 @@ export default {
   watch: {
     themeColor (val, oldVal) {
       console.log("change")
+    },
+    currentTheme(val,oldVal){
+      console.log(val)
     }
-  }
+  },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+@import "@/assets/style/elementui-global.scss";
+@import "@/assets/style/mvp-theme.scss";
 .el-header {
   // background-color: #B3C0D1;
   display: flex;
@@ -300,35 +331,69 @@ export default {
   display: block;
   margin-top: 30vh;
   text-align: center;
-  color:blue;
-  text-shadow:5px 5px 5px gray;
-  cursor:pointer;
-  animation:myMove 3s 2,
-  myMove2 5s infinite,
-  myMove3 5s 1;
-  animation-delay: -1s,-1s,-1s;
-  -webkit-animation: myMove 3s 2,
-  myMove2 5s infinite,
-  myMove3 5s 1;
-  -webkit-animation-delay: -1s,-1s,-1s;
+  color: blue;
+  text-shadow: 5px 5px 5px gray;
+  cursor: pointer;
+  animation: myMove 3s 2, myMove2 5s infinite, myMove3 5s 1;
+  animation-delay: -1s, -1s, -1s;
+  -webkit-animation: myMove 3s 2, myMove2 5s infinite, myMove3 5s 1;
+  -webkit-animation-delay: -1s, -1s, -1s;
 }
 @keyframes myMove {
-  30%{transform: scale(1);}
-  60%{transform: scale(1.3);}
-  100%{transform: scale(1);}
+  30% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 @keyframes myMove2 {
-  50%{text-shadow:15px 15px 10px white;}
-  100%{text-shadow:15px 15px 10px gray;}
+  50% {
+    text-shadow: 15px 15px 10px white;
+  }
+  100% {
+    text-shadow: 15px 15px 10px gray;
+  }
 }
 @keyframes myMove3 {
-  40%{rotate: -90deg;}
-  60%{rotate: 0deg;}
-  70%{rotate: 45deg;}
-  80%{rotate: 0deg;}
-  85%{rotate: -20deg;}
-  90%{rotate: 0deg;}
-  95%{rotate: 10deg;}
-  100%{rotate: 0deg;}
+  40% {
+    rotate: -90deg;
+  }
+  60% {
+    rotate: 0deg;
+  }
+  70% {
+    rotate: 45deg;
+  }
+  80% {
+    rotate: 0deg;
+  }
+  85% {
+    rotate: -20deg;
+  }
+  90% {
+    rotate: 0deg;
+  }
+  95% {
+    rotate: 10deg;
+  }
+  100% {
+    rotate: 0deg;
+  }
 }
+
+// /deep/ .el-drawer{
+//   padding:15px;
+// }
+// /deep/ .el-aside{
+//   background: black;
+// }
+/deep/ .el-drawer__header{
+  padding:0;
+  margin-bottom: 0;
+}
+
 </style>

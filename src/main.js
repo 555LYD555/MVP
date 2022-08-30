@@ -2,12 +2,15 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from "axios"
+
 // 引入阿里图标库
 // import './assets/iconfont/iconfont.css'
 //引入字体图标文件
 import '@/assets/font/font.css'
 //导入动态路由设置js文件
 // import "./permission"
+import '@/assets/style/elementui-global.scss'
+
 
 //使用插件注册方式，全局统一管理API接口，高德地图、天地图配置、等资源
 //全局导入MVP项目静态配置插件，通过Vue.use()使用插件【对于插件，Vue.use()会直接调用install方法】
@@ -61,6 +64,10 @@ import {
   Tag,
   RadioGroup,
   RadioButton,
+  Drawer,
+  Tabs,
+  TabPane,
+  Image,
 
 } from 'element-ui';
 Vue.use(Button);
@@ -99,6 +106,10 @@ Vue.use(BreadcrumbItem);
 Vue.use(Tag);
 Vue.use(RadioButton);
 Vue.use(RadioGroup);
+Vue.use(Drawer);
+Vue.use(Tabs);
+Vue.use(TabPane);
+Vue.use(Image);
 
 
 /* eslint-disable no-new */
