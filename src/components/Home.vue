@@ -36,6 +36,8 @@
             <el-menu-item-group>
               <el-menu-item index="/3">高德地图</el-menu-item>
               <el-menu-item index="/4">天地图</el-menu-item>
+              <el-menu-item index="/220930">流程图插件</el-menu-item>
+              <el-menu-item index="/221020">ECharts</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="1">
@@ -78,7 +80,7 @@
 
         </el-menu>
       </el-aside>
-      <div style="width:100%;">
+      <div :style="{'width':isCollapse?'calc(100% - 64px)':'calc(100% - 200px)'}">
         <BreadCrumb :isCollapse.sync="isCollapse"></BreadCrumb>
         <el-main style="width:100%;height:calc(100% - 40px)">
           <router-view></router-view>

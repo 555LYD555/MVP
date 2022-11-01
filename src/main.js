@@ -3,6 +3,14 @@ import App from './App'
 import router from './router'
 import axios from "axios"
 
+// 流程图插件vue-super-flow
+import SuperFlow from 'vue-super-flow'
+import 'vue-super-flow/lib/index.css'
+Vue.use(SuperFlow)
+
+//Echarts图表可视化插件
+import * as echarts from "echarts";
+Vue.prototype.$echarts = echarts;
 // 引入阿里图标库
 // import './assets/iconfont/iconfont.css'
 //引入字体图标文件

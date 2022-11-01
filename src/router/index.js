@@ -11,6 +11,9 @@ import ParallaxScrolling from '@/view/otherView/parallaxScrolling'
 import FreeAPI from '@/view/otherView/freeAPI/freeAPI'
 import ParallaxScrollingQQ from '@/view/special/parallaxScrolling'
 import Animation from '@/view/otherView/animation/animation'
+import VueSuperFlow from '@/components/public/VueSuperFlow'
+import ECharts from '@/view/Map/ECharts'
+
 
 Vue.use(Router)
 
@@ -77,6 +80,22 @@ export default new Router({
       component: TianDiTuMap,
       meta: {
         title: "天地图"
+      }
+    },
+    {
+      path: '/220930',
+      name: 'VueSuperFlow',
+      component: VueSuperFlow,
+      meta: {
+        title: "流程图插件"
+      }
+    },
+    {
+      path: '/221020',
+      name: 'ECharts',
+      component: ECharts,
+      meta: {
+        title: "ECharts"
       }
     },
     {

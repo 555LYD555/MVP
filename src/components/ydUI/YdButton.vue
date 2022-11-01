@@ -28,10 +28,17 @@
       <div class="glass-border" :style="getStyle(color)" id="box4">{{content}}</div>
     </div>
 
+    <!-- 特效按钮五：四角边框 -->
+    <div v-if="isShow4">
+      <FourCornerBorder ></FourCornerBorder>
+    </div>
+
   </div>
 </template>
 <script>
+import FourCornerBorder from "@/components/ydUI/ydButtonItems/FourCornerBorder.vue"
 export default {
+  components: { FourCornerBorder},
   name: 'YdButton',
   props: {
     //边框特效:box1、box2、box3三种选择
@@ -68,6 +75,7 @@ export default {
       isShow1:false,
       isShow2:false,
       isShow3:false,
+      isShow4:false,
 
 
     }

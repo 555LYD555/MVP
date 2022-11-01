@@ -37,6 +37,9 @@
     <div>
       <div class="gradient-border" id="box3">Animated</div>
     </div> -->
+    <div class="boxItem">
+      <four-corner-border></four-corner-border>
+    </div>
   </div>
     
 
@@ -67,10 +70,12 @@
 </template>
 <script>
 import YdButton from "./ydUI/YdButton";
+import FourCornerBorder from './ydUI/ydButtonItems/FourCornerBorder.vue';
 export default {
   name: 'CoolPage',
   components:{
     YdButton,
+    FourCornerBorder,
   },
   data () {
     return {
