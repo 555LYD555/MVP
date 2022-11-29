@@ -30,15 +30,32 @@
         <el-menu router
                  unique-opened
                  :collapse="isCollapse">
+            <template v-for="(menuItem,index) in menuList">
+              <el-menu-item :key="index" v-if="!menuItem.children" :index="menuItem.path" @click="clickMenu(menuItem)">
+                <i v-if="menuItem.meta.icon" :class="menuItem.meta.icon"></i>
+                {{menuItem.meta.title}}
+              </el-menu-item>
+              <el-submenu :key="index" v-else :index="menuItem.children[0].path">
+                <template slot="title"><i v-if="menuItem.meta.icon" :class="menuItem.meta.icon"></i><span slot="title">{{menuItem.meta.title}}</span></template>
+                <el-menu-item v-for="(menuItem2,index2) in menuItem.children" :key="index2" :index="menuItem2.path" @click="clickMenu(menuItem2)">
+                  {{menuItem2.meta.title}}
+                </el-menu-item>
+              </el-submenu>
+            </template>
+        </el-menu>
+
+        <!-- <el-menu router
+                 unique-opened
+                 :collapse="isCollapse">
           <el-menu-item index="/6"><i class="el-icon-s-home"></i><span slot="title">首页</span></el-menu-item>
           <el-submenu index="0">
             <template slot="title"><i class="el-icon-map-location"></i><span slot="title">地图</span></template>
-            <el-menu-item-group>
+      
               <el-menu-item index="/3">高德地图</el-menu-item>
               <el-menu-item index="/4">天地图</el-menu-item>
               <el-menu-item index="/220930">流程图插件</el-menu-item>
               <el-menu-item index="/221020">ECharts</el-menu-item>
-            </el-menu-item-group>
+   
           </el-submenu>
           <el-submenu index="1">
             <template slot="title"><i class="el-icon-message"></i><span slot="title">特殊效果</span></template>
@@ -78,12 +95,15 @@
             </el-submenu>
           </el-submenu>
 
-        </el-menu>
+        </el-menu> -->
       </el-aside>
       <div :style="{'width':isCollapse?'calc(100% - 64px)':'calc(100% - 200px)'}">
         <BreadCrumb :isCollapse.sync="isCollapse"></BreadCrumb>
-        <el-main style="width:100%;height:calc(100% - 40px)">
-          <router-view></router-view>
+        <CommonTab></CommonTab>
+        <el-main>
+          <transition name="fade">
+            <router-view></router-view>
+          </transition>
         </el-main>
       </div>
       <!-- 抽屉：个人中心 -->
@@ -115,34 +135,22 @@
 </template>
 <script>
 import BreadCrumb from '@/components/BreadCrumb.vue';
+import CommonTab from '@/components/CommonTab.vue'
 import ParallaxScrolling from '@/view/special/parallaxScrolling.vue';
 import ThemeSwitch from '@/components/Theme.vue';
 import ThemeCards from '@/view/otherView/myCenter/themeCard.vue';
+// import menuList from '@/assets/static/menuList.js'
+import { mapState,mapMutations} from 'vuex'
 export default {
-  components: { BreadCrumb, ParallaxScrolling, ThemeSwitch ,ThemeCards},
+  components: { BreadCrumb,CommonTab, ParallaxScrolling, ThemeSwitch ,ThemeCards},
   name: 'Home',
   data () {
-
-    const item = {
-      date: '2016-05-02',
-      name: '王小虎',
-      address: '上海市普陀区金沙江路 1518 弄'
-    };
     return {
       // 是否展开折叠
       isCollapse: false,
       themeColor: '#B3C0D1',
       isWelcomePageVisible: false,
       headerText: '返回首页',
-      tableData: Array(20).fill(item),
-      navData: [
-        { name: "高德地图", url: "/3" },
-        { name: "封闭园区", url: "/3" },
-        { name: "安全生产", url: "/3" },
-        { name: "天地图", url: "/4" },
-        { name: "特效边框", url: "/5" },
-        { name: "视觉滚差", url: "/8" },
-      ],
       colorArray: ["#9d9797", "#9fbdc3", "#c3b79f", "#ad99c9", "#99c9a9", "#c99999"],
       //抽屉是否可见
       drawerVisible: false,
@@ -151,6 +159,11 @@ export default {
       currentTheme:'',
       activeName:'first',
     }
+  },
+  computed:{
+    ...mapState({
+      menuList:state=>state.menu.menuList
+    })
   },
 
   methods: {
@@ -195,6 +208,12 @@ export default {
 
     },
 
+    //跳转路由 根据名称跳转
+    clickMenu(item) {
+      this.$store.commit('breadCrumb/selectMenu', item)
+      this.$router.push({ path: item.path })
+    }
+
   },
   watch: {
     themeColor (val, oldVal) {
@@ -209,8 +228,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-@import "@/assets/style/elementui-global.scss";
-@import "@/assets/style/mvp-theme.scss";
+// @import "@/assets/style/elementui-global.scss";
+// @import "@/assets/style/mvp-theme.scss";
 .el-header {
   // background-color: #B3C0D1;
   display: flex;
@@ -228,42 +247,11 @@ export default {
   border-right: solid 1px #e6e6e6;
   // background-color: white;
 
-  /*滚动条里面小方块*/
-  &::-webkit-scrollbar-thumb {
-    // background-color: #EBEAEF;
-    background-color: #2f96db;
-    border-radius: 10px;
-  }
-  /*滚动条整体样式*/
-  &::-webkit-scrollbar {
-    width: 3px;
-    height: 6px;
-  }
-  /*滚动条里面轨道*/
-  &::-webkit-scrollbar-track {
-    background: #ffffff;
-    // background: #e96f6f;
-    border-radius: 10px;
-  }
 }
 .el-main {
-  /*滚动条里面小方块*/
-  &::-webkit-scrollbar-thumb {
-    // background-color: #EBEAEF;
-    background-color: #2f96db;
-    border-radius: 10px;
-  }
-  /*滚动条整体样式*/
-  &::-webkit-scrollbar {
-    width: 3px;
-    height: 6px;
-  }
-  /*滚动条里面轨道*/
-  &::-webkit-scrollbar-track {
-    background: #ffffff;
-    // background: #e96f6f;
-    border-radius: 10px;
-  }
+  width:100%;
+  height:calc(100% - 90px);
+  padding:10px 15px;
 }
 
 .navCardItem {
@@ -308,23 +296,6 @@ export default {
   height: 100% !important;
   width: 100%;
 
-  /*滚动条里面小方块*/
-  &::-webkit-scrollbar-thumb {
-    // background-color: #EBEAEF;
-    background-color: #2f96db;
-    border-radius: 10px;
-  }
-  /*滚动条整体样式*/
-  &::-webkit-scrollbar {
-    width: 3px;
-    height: 6px;
-  }
-  /*滚动条里面轨道*/
-  &::-webkit-scrollbar-track {
-    background: #ffffff;
-    // background: #e96f6f;
-    border-radius: 10px;
-  }
 }
 
 /deep/ .mainText {
@@ -397,5 +368,7 @@ export default {
   padding:0;
   margin-bottom: 0;
 }
+
+
 
 </style>

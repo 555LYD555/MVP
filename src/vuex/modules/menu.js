@@ -1,6 +1,6 @@
-
+import menuList from "../../assets/static/menuList"
 const state = {
-
+    menuList:menuList
 }
 const getters = {
 
@@ -13,7 +13,7 @@ const action = {
 }
 
 export default{
-  // namespaced: true,
+  namespaced: true,
   state,
   getters,
   mutations,

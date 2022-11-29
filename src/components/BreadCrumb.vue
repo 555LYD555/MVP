@@ -8,7 +8,7 @@
     <i class="el-icon-s-fold menu-isCollapse" @click="isCollapse=!isCollapse" v-if="isCollapse" ></i>
     <i class="el-icon-s-unfold menu-isCollapse" @click="isCollapse=!isCollapse" v-if="!isCollapse" ></i>
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item v-for="item in list" :key="item.path" :to="item.path">
+      <el-breadcrumb-item v-for="item in list" :key="item.path" :to="{path: item.path}">
         {{item.meta.title}}
       </el-breadcrumb-item>
     </el-breadcrumb>
@@ -37,6 +37,8 @@ export default ({
   },
   computed: {
     list(){
+      // debugger
+      // this.$route.matched
       return this.$route.matched;
     }
   },

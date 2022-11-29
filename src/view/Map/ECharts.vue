@@ -1,21 +1,28 @@
 <template>
     <div class="data-view">
         <splitpanes class="default-theme" horizontal style="height: 800px">
-            <pane size="65">
+            <pane size="50">
                 <Splitpanes>
                     <pane size="40">
-                        <div id="main1"></div>
+                        <line-chart :xData="xData" :yData="yData"></line-chart>
                     </pane>
                     <pane size="40">
-                        <div id="main2"></div>
+                        <bar-chart :xData="xData" :yData="yData"></bar-chart>
                     </pane>
                     <pane size="20">
                         <JsonPreview class="JsonEditor" :data="JsonData"></JsonPreview>
                     </pane>
                 </Splitpanes>
             </pane>
-            <pane size="35">
-
+            <pane size="50">
+                <Splitpanes>
+                    <pane size="50">
+                        <pie-chart :chartData="pieChartData"></pie-chart>
+                    </pane>
+                    <pane size="50">
+                        <combine-chart :result="combineChartDataResult"></combine-chart>
+                    </pane>
+                </Splitpanes>
             </pane>
         </splitpanes>
     </div>
@@ -26,9 +33,15 @@ import { initChart } from "../../components/echarts/index.js"
 // 插件vue-splitter，详见git地址：https://github.com/antoniandre/splitpanes
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
+import pieChart from '@/components/echarts/item/pieChart'
+import barChart from '@/components/echarts/item/barChart'
+import lineChart from '@/components/echarts/item/lineChart'
+import combineChart from '@/components/echarts/item/combineChart.vue'
+
+import { dealOptions } from '@/components/echarts/item/combineChart.js'
 
 export default {
-    components: { JsonPreview, Splitpanes, Pane },
+    components: { JsonPreview, Splitpanes, Pane ,pieChart,barChart,lineChart,combineChart},
     data() {
         return {
             JsonData: {
@@ -38,11 +51,53 @@ export default {
                     { name: 'zzz', age: '11' },
                     { name: 'zzz', age: '11' },
                 ]
-            }
+            },
+
+            pieChartData: [
+                { name: "危险化学品", value: 500 },
+                { name: "非煤矿山", value: 1000 },
+                { name: "金属冶炼", value: 2000 },
+                { name: "工贸", value: 3000 },
+            ],
+            xData:["危化品", "非煤矿山", "金属冶炼", "工贸"],
+            yData:[12, 23, 12, 34],
+
+            combineChart:[
+                {
+                    title:'月份',
+                    type:'bar',
+                    color:'blue',
+                    unit:'月',
+                    position:'left',
+                    offset:0,
+                    data:[10,20,30,40,50]
+                },{
+                    title:'月份',
+                    type:'line',
+                    color:'blue',
+                    unit:'个',
+                    position:'right',
+                    offset:10,
+                    data:[10,20,30,40,50]
+                },{
+                    title:'月份',
+                    type:'line',
+                    color:'blue',
+                    unit:'%',
+                    position:'right',
+                    offset:30,
+                    data:[20,30,40,50,60]
+                },
+            ],
+            combineChartXAxisData:["1月","2月","3月","4月","5月"],
+            combineChartDataResult:{},
         }
     },
 
     mounted() {
+        this.combineChartDataResult = dealOptions(this.combineChart,this.combineChartXAxisData)
+        debugger
+        this.combineChartDataResult
         // 基于准备好的dom，初始化echarts实例
         // let myChart = this.$echarts.init(document.getElementById("main1"))
         let myChart = initChart("main1")
@@ -244,6 +299,9 @@ export default {
                 data: [15, 146, 196, 134, 147, 15]
             }]
         })
+        window.onresize = function() {
+            myChart.resize();
+        };
 
         let myChart2 = initChart("main2")
         let option2 = {
@@ -263,6 +321,10 @@ export default {
             ]
         };
         myChart2.setOption(option2)
+        window.onresize = function() {
+            myChart2.resize();
+        };
+
 
     },
     methods: {

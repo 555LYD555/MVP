@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './vuex'
 import axios from "axios"
 
 // 流程图插件vue-super-flow
@@ -17,7 +18,7 @@ Vue.prototype.$echarts = echarts;
 import '@/assets/font/font.css'
 //导入动态路由设置js文件
 // import "./permission"
-import '@/assets/style/elementui-global.scss'
+import '@/assets/style'
 
 
 //使用插件注册方式，全局统一管理API接口，高德地图、天地图配置、等资源
@@ -124,6 +125,7 @@ Vue.use(Image);
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
